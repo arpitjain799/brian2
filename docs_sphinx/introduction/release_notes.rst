@@ -1,6 +1,38 @@
 Release notes
 =============
 
+Brian 2.5.1
+-----------
+This new minor release contains a large number of bug fixes and improvements, in particular for the C++ standalone mode,
+as well as many new contributed examples. For users of Visual Studio Code, getting involved with Brian development is now
+easier than ever, thanks to a new "development container" that automatically provides an environment with all the necessary
+dependencies.
+
+New features
+~~~~~~~~~~~~
+* Ben Evans added a Docker container for development with Visual Studio Code (:issue:`1387`).
+* Synaptic indices of synapses created with manually provided indices can now be accessed in standalone mode even before
+  the situation has been run. This makes certain complex situations (e.g. synapses modulating other synapses) easier to
+  write and also makes more detailed error checking possible (:issue:`1403`).
+
+Selected improvements and bug fixes
+~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~
+* Internally, Brian objects now have more consistent names (used in the generated code), and variables declarations are
+  generated in deterministic order. This should make repeated runs of models faster, since less code has to be recompiled
+  (:issue:`1384`, :issue:`1417`).
+* Running several simulations in parallel with Python's ``multiprocessing`` meant that all processes accessed the same
+  log file which led to redundant information and could lead to crashes when several processes tried to rotate the same
+  file. Brian now switches off logging in subprocesses, but users can enable also enable individual logs for each process,
+  see :ref:`logging_and_multiprocessing`. The default log level for the file log has also been raised to ``DEBUG``
+  (:issue:`1419`).
+* Some common plotting idioms (e.g. ``plt.plot(spike_mon.t/ms, spike_mon.i, '.')``) where broken with the most recent
+  matplotlib version (:issue:`1412`)
+
+Infrastructure and documentation improvements
+~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~
+* Sebastian Schmitt has contributed several new :doc:`../examples`, reproducing results from several papers (e.g.
+  :doc:`../examples/Maass_Natschlaeger_Markram_2002` and :doc:`../examples/Naud_et_al_2008_adex_firing_patterns`)
+* Akif Erdem Sağtekin and Sebastian Schmitt contributed the example :doc:`../examples/Izhikevich_2003`.
 Brian 2.5.0.3
 -------------
 Another patch-level release that fixes incorrectly built Python wheels (the binary package
